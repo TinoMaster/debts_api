@@ -35,7 +35,7 @@ const DebtsSchema = new Schema({
   comentario: Array,
 });
 
-const DeudasModel = mongoose.model("Deudas", DebtsSchema);
+const DeudasModel = mongoose.model("Debts", DebtsSchema);
 mongoose.connect(`${dbConfig.mongoHost}/${dbConfig.mongoDb}`);
 
 module.exports = DeudasModel;
