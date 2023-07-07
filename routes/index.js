@@ -1,16 +1,14 @@
-const express = require('express');
-/* const digitalRoutes = require('./digitals.routes');
-const usersRoutes = require('./users.routes');
-const rolesRoutes = require('./roles.routes'); */
+const express = require('express')
+const debtsRoutes = require('./debts.routes')
+const userRoutes = require('./users.routes')
 
 /* Funcion para agregar las rutas */
-function routerApi(app) {
-  const router = express.Router();
-  app.use('/api/v1', router);
+const routerApi = (app) => {
+  const router = express.Router()
+  app.use('/api/v1', router)
 
- /*  router.use(digitalRoutes);
-  router.use(usersRoutes);
-  router.use(rolesRoutes); */
+  router.use(debtsRoutes)
+  router.use(userRoutes)
 }
 
-module.exports = routerApi;
+module.exports = routerApi

@@ -1,0 +1,35 @@
+[
+    {
+        "_id": "2f9a9f60-fe70-47b0-a451-24280b11e542",
+        "colId": "history",
+        "containerId": "",
+        "name": "http://localhost:5000/api/v1/debts",
+        "url": "http://localhost:5000/api/v1/debts",
+        "method": "GET",
+        "sortNum": 0,
+        "created": "2023-07-07T13:26:13.646Z",
+        "modified": "2023-07-07T13:26:13.646Z",
+        "headers": [],
+        "params": [],
+        "tests": []
+    },
+    {
+        "_id": "14a3a15c-e9e7-4ac8-99c2-94d2a0e90f3a",
+        "colId": "history",
+        "containerId": "",
+        "name": "http://localhost:5000/api/v1/debts",
+        "url": "http://localhost:5000/api/v1/debts",
+        "method": "POST",
+        "sortNum": 0,
+        "created": "2023-07-07T13:26:59.840Z",
+        "modified": "2023-07-07T13:26:59.840Z",
+        "headers": [],
+        "params": [],
+        "body": {
+            "type": "json",
+            "raw": "{\n  \"name\": \"Oscar con Javier\",\n  \"creador\": \"Oscar\",\n  \"deudor\": \"Javier\",\n  \"acreedor\": \"Oscar\",\n  \"deuda\": 8000,\n  \"fecha\": \"18/8/2023\",\n  \"pagada\": {\n    \"isDone\": false,\n    \"fecha\": \"\"\n  },\n  \"pagos\": [\n    {\n      \"fecha\": \"21/8/2023\",\n      \"cantidad\": 3000\n    }\n  ]\n}",
+            "form": []
+        },
+        "tests": []
+    }
+]

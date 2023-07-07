@@ -1,6 +1,22 @@
-const DebtsModel = require("../models/debts.model");
-const DebtsController = () => {};
+const DebtsModel = require('../models/debts.model')
+const DebtsController = () => {}
 
-DebtsController.get_my_debts = (id, cb) => {};
+DebtsController.get_all_debts = (cb) => {
+  DebtsModel.find()
+    .then((res) => cb(null, res))
+    .catch((err) => cb(err, null))
+}
 
-module.exports = DebtsController;
+DebtsController.get_my_debts = (id, cb) => {
+  DebtsModel.find({ _id: id })
+    .then((res) => cb(null, res))
+    .catch((err) => cb(err, null))
+}
+
+DebtsController.create_debt = (data, cb) => {
+  DebtsModel.create(data)
+    .then((res) => cb(null, res))
+    .catch((err) => cb(err, null))
+}
+
+module.exports = DebtsController
