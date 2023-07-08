@@ -1,8 +1,10 @@
-require('dotenv').config();
+require('dotenv').config()
+
+const { DB, DB_TEST, NODE_ENV } = process.env
 
 const config = {
   mongoHost: process.env.HOST,
-  mongoDb: process.env.DB,
-};
+  mongoDb: NODE_ENV === 'test' ? DB_TEST : DB
+}
 
-module.exports = config;
+module.exports = config

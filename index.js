@@ -16,6 +16,8 @@ app.use((err, req, res, next) => {
   res.status(422).send({ error: err })
 })
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log('Servidor corriendo en el puerto ' + PORT)
 })
+
+module.exports = { app, server }
