@@ -16,6 +16,13 @@ const UserSchema = new Schema(
   }
 )
 
+UserSchema.set('toJSON', {
+  // Definir opciones para toJSON
+  transform: (doc, ret) => {
+    delete ret.password // Excluir el campo "password"
+  }
+})
+
 const UserModel = mongoose.model('Users', UserSchema)
 mongoose.connect(`${dbConfig.mongoHost}/${dbConfig.mongoDb}`)
 

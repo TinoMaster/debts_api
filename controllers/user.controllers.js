@@ -7,4 +7,10 @@ UserController.get_all = (cb) => {
     .catch((err) => cb(err, null))
 }
 
+UserController.createUser = (user, cb) => {
+  UserModel.create(user)
+    .then((res) => cb(null, res))
+    .catch((err) => cb(err, null))
+}
+
 module.exports = UserController
