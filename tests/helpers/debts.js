@@ -40,6 +40,25 @@ const initialDebts = [
       }
     ],
     comentario: []
+  },
+  {
+    name: 'Oscar con Javier',
+    creador: 'Oscar',
+    deudor: 'Javier',
+    acreedor: 'Oscar',
+    deuda: 8000,
+    fecha: '2023-06-05T00:00:00.000Z',
+    pagada: {
+      isDone: false,
+      fecha: ''
+    },
+    pagos: [
+      {
+        fecha: '2023-06-06T00:00:00.000Z',
+        cantidad: 1500
+      }
+    ],
+    comentario: []
   }
 ]
 

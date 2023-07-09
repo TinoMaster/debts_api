@@ -5,6 +5,7 @@ const dbConfig = require('../configs/db_mongo')
 const UserSchema = new Schema(
   {
     username: { type: String, required: true },
+    name: { type: String, required: true },
     password: { type: String, required: true },
     email: { type: String, required: true },
     role: { type: String, required: true },
@@ -15,7 +16,7 @@ const UserSchema = new Schema(
   }
 )
 
-const UserModel = mongoose.model('User', UserSchema)
+const UserModel = mongoose.model('Users', UserSchema)
 mongoose.connect(`${dbConfig.mongoHost}/${dbConfig.mongoDb}`)
 
 module.exports = UserModel

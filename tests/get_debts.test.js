@@ -5,20 +5,25 @@ const { initialDebts, server, getAllDebts, createOneDebt } = require('./helpers/
 
 beforeAll(async () => {
   await DebtsModel.deleteMany({})
-  await DebtsModel.create(initialDebts[0])
-  await DebtsModel.create(initialDebts[1])
+  for (const note of initialDebts) {
+    await DebtsModel.create(note)
+  }
 })
 
-test('debts most be returned 2 debts', async () => {
-  const allDebts = await getAllDebts()
-  expect(allDebts.length).toBe(2)
+describe('GET Notes', () => {
+  test(`Me devuelve los ${initialDebts.length} elementos de inicio`, async () => {
+    const allDebts = await getAllDebts()
+    expect(allDebts.length).toBe(initialDebts.length)
+  })
 })
 
-test('debts most be returned 3 debts', async () => {
-  await createOneDebt()
-  const allDebts = await getAllDebts()
+describe('POST Notes', () => {
+  test(`Crea una nota y ahora son ${initialDebts.length + 1}`, async () => {
+    await createOneDebt()
+    const allDebts = await getAllDebts()
 
-  expect(allDebts.length).toBe(3)
+    expect(allDebts.length).toBe(initialDebts.length + 1)
+  })
 })
 
 afterAll(() => {
