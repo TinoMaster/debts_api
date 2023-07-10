@@ -21,6 +21,12 @@ describe('GET Notes', () => {
     const allDebts = await getAllDebts()
     expect(allDebts.length).toBe(initialDebts.length)
   })
+
+  /* Pendiente para mañana */
+  /* test('Funciona el populate de mongoose', async () => {
+    const allDebts = await getAllDebts()
+    expect(allDebts.length).toBe(initialDebts.length)
+  }) */
 })
 
 describe('POST Notes', () => {

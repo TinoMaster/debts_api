@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const UserModel = require('../models/users.model')
 /* Helpers */
-const { initialUsers, server, getAllUsers, createOneUser, createOneUserWhitError } = require('./helpers/users')
+const { initialUsers, server, getAllUsers, createOneUser } = require('./helpers/users')
 
 beforeAll(async () => {
   await UserModel.deleteMany({})
@@ -13,7 +13,8 @@ beforeAll(async () => {
 describe('GET Users', () => {
   test(`Me devuelve los ${initialUsers.length} elementos de inicio`, async () => {
     const allUsers = await getAllUsers()
-    expect(allUsers.length).toBe(initialUsers.length)
+    const users = allUsers.body.data
+    expect(users.length).toBe(initialUsers.length)
   })
 })
 
@@ -27,11 +28,18 @@ describe('POST Users', () => {
       role: 'user',
       active: true
     }
-    await createOneUser(newUser)
-    const allUsers = await getAllUsers()
+    const response = await createOneUser(newUser)
+    const responseUsers = await getAllUsers()
+    const allUsers = responseUsers.body.data
 
+    const dataResponse = response.body.data
+
+    expect(dataResponse.username).toBe('Karla2348873433')
+    expect(response.status).toBe(201)
+    expect(response.created).toBe(true)
     expect(allUsers.length).toBe(initialUsers.length + 1)
   })
+
   test('Crea un usuario con campo vacio', async () => {
     const newUser = {
       username: '',
@@ -41,9 +49,37 @@ describe('POST Users', () => {
       role: 'user',
       active: true
     }
-    const response = await createOneUserWhitError(newUser)
-
+    const response = await createOneUser(newUser)
     expect(response.status).toBe(422)
+    expect(response.created).toBe(false)
+  })
+
+  test('Crea un usuario con el mismo userName', async () => {
+    const repeatUser = {
+      username: 'Karla2348873433',
+      name: 'Karla',
+      password: 'karla1234',
+      email: 'karla2@gmail.com',
+      role: 'user',
+      active: true
+    }
+    const response = await createOneUser(repeatUser)
+    expect(response.status).toBe(422)
+    expect(response.created).toBe(false)
+  })
+
+  test('Crea un usuario con el mismo email', async () => {
+    const repeatUser = {
+      username: 'Karla2348873435',
+      name: 'Karla',
+      password: 'karla1234',
+      email: 'karla@gmail.com',
+      role: 'user',
+      active: true
+    }
+    const response = await createOneUser(repeatUser)
+    expect(response.status).toBe(422)
+    expect(response.created).toBe(false)
   })
 })
 

@@ -3,6 +3,7 @@ const DebtsController = () => {}
 
 DebtsController.get_all_debts = (cb) => {
   DebtsModel.find()
+    .populate('creador')
     .then((res) => cb(null, res))
     .catch((err) => cb(err, null))
 }

@@ -4,7 +4,10 @@ const UserService = () => {}
 
 UserService.get_all = (req, res, next) => {
   UserController.get_all((err, docs) => {
-    err ? next(err) : res.json({ succes: true, data: docs })
+    if (err) {
+      res.status(400).json({ error: true, message: 'bad request' })
+      next(err)
+    } else res.json({ succes: true, data: docs })
   })
 }
 
@@ -15,7 +18,10 @@ UserService.createUser = async (req, res, next) => {
     password: passwordHash
   }
   UserController.createUser(user, (err, docs) => {
-    err ? next(err) : res.json({ succes: true, data: docs })
+    if (err) {
+      res.status(422).json({ error: true, message: 'bad request' })
+      next(err)
+    } else res.status(201).json({ succes: true, data: docs })
   })
 }
 

@@ -69,16 +69,8 @@ const initialUsers = [
   }
 ]
 
-const getAllUsers = async () => {
-  const response = await api.get('/api/v1/users')
-  return response.body.data
-}
+const getAllUsers = async () => await api.get('/api/v1/users')
 
-const createOneUser = async (newUser) => {
-  const response = await api.post('/api/v1/users').send(newUser)
-  return response.body.data
-}
+const createOneUser = async (newUser) => await api.post('/api/v1/users').send(newUser)
 
-const createOneUserWhitError = async (newUser) => await api.post('/api/v1/users').send(newUser)
-
-module.exports = { initialUsers, server, getAllUsers, createOneUser, createOneUserWhitError }
+module.exports = { initialUsers, server, getAllUsers, createOneUser }
