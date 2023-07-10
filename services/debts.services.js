@@ -18,7 +18,6 @@ DebtsServices.get_my_debts = (req, res, next) => {
 
 DebtsServices.create_debt = (req, res, next) => {
   const data = req.body
-  console.log(data)
   DebtsController.create_debt(data, (err, docs) => {
     if (err) next(err)
     else res.status(200).json({ success: true, data: docs })

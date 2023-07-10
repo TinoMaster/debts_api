@@ -2,12 +2,22 @@ const { app, server } = require('../../index')
 const supertest = require('supertest')
 const api = supertest(app)
 
+/* const giveUserName = async (name) => {
+  try {
+    const id = await UserModel.find({ name })
+    return id
+  } catch (error) {
+    console.log(`Error al buscar el usuario ${name}:`, error)
+  }
+} */
+
 const initialDebts = [
   {
     name: 'Oscar con Javier',
-    creador: 'Oscar',
-    deudor: 'Javier',
-    acreedor: 'Oscar',
+    description: 'Split',
+    creador: '64ab2209388e4e4a26f41e03',
+    deudor: '64ab2209388e4e4a26f41e04',
+    acreedor: '64ab2209388e4e4a26f41e03',
     deuda: 5000,
     fecha: '2023-07-05T00:00:00.000Z',
     pagada: {
@@ -21,7 +31,7 @@ const initialDebts = [
       }
     ],
     comentario: []
-  },
+  } /* ,
   {
     name: 'Oscar con Javier',
     creador: 'Oscar',
@@ -59,7 +69,7 @@ const initialDebts = [
       }
     ],
     comentario: []
-  }
+  } */
 ]
 
 const getAllDebts = async () => {
@@ -70,9 +80,10 @@ const getAllDebts = async () => {
 const createOneDebt = async () => {
   const newNote = {
     name: 'Oscar con Javier',
-    creador: 'Oscar',
-    deudor: 'Javier',
-    acreedor: 'Oscar',
+    description: 'Moto',
+    creador: '64ab2209388e4e4a26f41e03',
+    deudor: '64ab2209388e4e4a26f41e04',
+    acreedor: '64ab2209388e4e4a26f41e03',
     deuda: 5000,
     fecha: '2023-07-05T00:00:00.000Z',
     pagada: {

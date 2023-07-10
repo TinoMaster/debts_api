@@ -1,12 +1,18 @@
 const mongoose = require('mongoose')
 const DebtsModel = require('../models/debts.model')
+const UsersModel = require('../models/users.model')
 /* Helpers */
 const { initialDebts, server, getAllDebts, createOneDebt } = require('./helpers/debts')
+const { initialUsers } = require('./helpers/users')
 
 beforeAll(async () => {
   await DebtsModel.deleteMany({})
+  await UsersModel.deleteMany({})
   for (const note of initialDebts) {
     await DebtsModel.create(note)
+  }
+  for (const user of initialUsers) {
+    await UsersModel.create(user)
   }
 })
 
