@@ -19,8 +19,10 @@ DebtsServices.get_my_debts = (req, res, next) => {
 DebtsServices.create_debt = (req, res, next) => {
   const data = req.body
   DebtsController.create_debt(data, (err, docs) => {
-    if (err) next(err)
-    else res.status(200).json({ success: true, data: docs })
+    if (err) {
+      res.status(422).json({ error: true, message: 'Bad request' })
+      next(err)
+    } else res.status(200).json({ success: true, data: docs })
   })
 }
 

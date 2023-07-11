@@ -5,9 +5,39 @@ const dbConfig = require('../configs/db_mongo')
 const DebtsSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  creador: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
-  deudor: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
-  acreedor: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
+  creador: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+    required: true,
+    validate: {
+      validator: function (value) {
+        return mongoose.isValidObjectId(value)
+      },
+      message: 'El campo acreedor debe ser un ObjectId válido.'
+    }
+  },
+  deudor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+    required: true,
+    validate: {
+      validator: function (value) {
+        return mongoose.isValidObjectId(value)
+      },
+      message: 'El campo acreedor debe ser un ObjectId válido.'
+    }
+  },
+  acreedor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+    required: true,
+    validate: {
+      validator: function (value) {
+        return mongoose.isValidObjectId(value)
+      },
+      message: 'El campo acreedor debe ser un ObjectId válido.'
+    }
+  },
   deuda: Number,
   fecha: Date,
   pagada: { isDone: Boolean, fecha: Date },

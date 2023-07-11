@@ -3,16 +3,22 @@ const DebtsModel = require('../models/debts.model')
 const UsersModel = require('../models/users.model')
 /* Helpers */
 const { initialDebts, server, getAllDebts, createOneDebt } = require('./helpers/debts')
-const { initialUsers } = require('./helpers/users')
+const { initialUsers, getAllUsers } = require('./helpers/users')
 
 beforeAll(async () => {
   await DebtsModel.deleteMany({})
   await UsersModel.deleteMany({})
-  for (const note of initialDebts) {
-    await DebtsModel.create(note)
-  }
   for (const user of initialUsers) {
     await UsersModel.create(user)
+  }
+  const allUsers = await getAllUsers()
+  const id1 = allUsers.body.data[0]._id
+  const id2 = allUsers.body.data[1]._id
+  for (const note of initialDebts) {
+    note.creador = id1
+    note.acreedor = id2
+    note.deudor = id1
+    await DebtsModel.create(note)
   }
 })
 
@@ -21,19 +27,12 @@ describe('GET Notes', () => {
     const allDebts = await getAllDebts()
     expect(allDebts.length).toBe(initialDebts.length)
   })
-
-  /* Pendiente para mañana */
-  /* test('Funciona el populate de mongoose', async () => {
-    const allDebts = await getAllDebts()
-    expect(allDebts.length).toBe(initialDebts.length)
-  }) */
 })
 
 describe('POST Notes', () => {
   test(`Crea una nota y ahora son ${initialDebts.length + 1}`, async () => {
     await createOneDebt()
     const allDebts = await getAllDebts()
-
     expect(allDebts.length).toBe(initialDebts.length + 1)
   })
 })
