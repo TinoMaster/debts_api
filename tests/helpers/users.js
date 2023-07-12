@@ -71,6 +71,8 @@ const initialUsers = [
 
 const getAllUsers = async () => await api.get('/api/v1/users')
 
-const createOneUser = async (newUser) => await api.post('/api/v1/users').send(newUser)
+const createOneUser = async (newUser) => await api.post('/api/v1/users/register').send(newUser)
 
-module.exports = { initialUsers, server, getAllUsers, createOneUser }
+const loginUser = async (dataLogin) => await api.post('/api/v1/users/login').send(dataLogin)
+
+module.exports = { initialUsers, server, getAllUsers, createOneUser, loginUser }

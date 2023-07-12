@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const UserModel = require('../models/users.model')
 /* Helpers */
-const { initialUsers, server, getAllUsers, createOneUser } = require('./helpers/users')
+const { initialUsers, server, getAllUsers, createOneUser, loginUser } = require('./helpers/users')
 
 beforeAll(async () => {
   await UserModel.deleteMany({})
@@ -80,6 +80,33 @@ describe('POST Users', () => {
     const response = await createOneUser(repeatUser)
     expect(response.status).toBe(422)
     expect(response.created).toBe(false)
+  })
+})
+
+describe('Login User', () => {
+  test('Me logeo correctamente', async () => {
+    const dataLogin = {
+      email: 'karla@gmail.com',
+      password: 'karla1234'
+    }
+    const response = await loginUser(dataLogin)
+    expect(response.status).toBe(201)
+  })
+  test('Campo email no valido o vacio', async () => {
+    const dataLogin = {
+      email: 'karlos@gmail.com',
+      password: 'karla1234'
+    }
+    const response = await loginUser(dataLogin)
+    expect(response.status).toBe(401)
+  })
+  test('Campo password no valido o vacio', async () => {
+    const dataLogin = {
+      email: 'karlos@gmail.com',
+      password: 'karla'
+    }
+    const response = await loginUser(dataLogin)
+    expect(response.status).toBe(401)
   })
 })
 
