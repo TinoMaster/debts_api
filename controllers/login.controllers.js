@@ -16,7 +16,7 @@ LoginController.login = async (data, cb) => {
         name: user[0].name
       }
       const token = tokenSign(dataToSign)
-      cb(null, { ...user, token })
+      cb(null, { user, token })
     } else cb(error, null)
   } catch (err) {
     cb(err, null)

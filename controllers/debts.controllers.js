@@ -8,10 +8,10 @@ DebtsController.get_all_debts = (cb) => {
 }
 
 DebtsController.get_my_debts = (id, cb) => {
-  DebtsModel.find({ _id: id })
-    .populate('creador', { username: 1 })
-    .populate('deudor', { username: 1 })
-    .populate('acreedor', { username: 1 })
+  DebtsModel.find({ $or: [{ creador: id }, { deudor: id }] })
+    .populate('creador', { username: 1, name: 1 })
+    .populate('deudor', { username: 1, name: 1 })
+    .populate('acreedor', { username: 1, name: 1 })
     .then((res) => cb(null, res))
     .catch((err) => cb(err, null))
 }
