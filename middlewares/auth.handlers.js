@@ -40,7 +40,7 @@ const checkIsAdmin = async (req, res, next) => {
     const decodedToken = verifyToken(token)
 
     if (!token || !decodedToken._id) {
-      res.status(401).json({ error: true, message: 'unauthorized' })
+      res.json({ error: true, message: 'unauthorized' })
     }
 
     const { _id: userId } = decodedToken
@@ -49,7 +49,7 @@ const checkIsAdmin = async (req, res, next) => {
       const user = await UserModel.find({ _id: userId })
       if (user[0].role === 'admin') {
         next()
-      } else res.status(401).json({ error: true, message: 'unauthorized' })
+      } else res.json({ error: true, message: 'unauthorized' })
     } catch (error) {
       next(error)
     }
