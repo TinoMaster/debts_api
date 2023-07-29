@@ -3,19 +3,13 @@ const UserModel = require('../models/users.model')
 /* Helpers */
 const { initialUsers, server, getAllUsers, createOneUser, loginUser } = require('./helpers/users')
 
+let token = ''
+
 beforeAll(async () => {
   await UserModel.deleteMany({})
-  for (const note of initialUsers) {
-    await UserModel.create(note)
+  for (const user of initialUsers) {
+    await UserModel.create(user)
   }
-})
-
-describe('GET Users', () => {
-  test(`Me devuelve los ${initialUsers.length} elementos de inicio`, async () => {
-    const allUsers = await getAllUsers()
-    const users = allUsers.body.data
-    expect(users.length).toBe(initialUsers.length)
-  })
 })
 
 describe('POST Users', () => {
@@ -28,8 +22,15 @@ describe('POST Users', () => {
       role: 'user',
       active: true
     }
+
     const response = await createOneUser(newUser)
-    const responseUsers = await getAllUsers()
+    const dataLogin = {
+      email: 'karla@gmail.com',
+      password: 'karla1234'
+    }
+    const login = await loginUser(dataLogin)
+    token = login.body.data.token
+    const responseUsers = await getAllUsers(token)
     const allUsers = responseUsers.body.data
 
     const dataResponse = response.body.data
@@ -103,12 +104,25 @@ describe('Login User', () => {
   test('Campo password no valido o vacio', async () => {
     const dataLogin = {
       email: 'karlos@gmail.com',
-      password: 'karla'
+      password: ''
     }
     const response = await loginUser(dataLogin)
     expect(response.status).toBe(401)
   })
 })
+
+describe('GET Users', () => {
+  test(`Me devuelve los ${initialUsers.length} elementos de inicio + 1 que cree`, async () => {
+    const allUsers = await getAllUsers(token)
+    const users = allUsers.body.data
+    expect(users.length).toBe(initialUsers.length + 1)
+  })
+})
+
+/* describe('REQUEST CONTACT', () => {
+  test('should ', async () => { 
+  });
+}) */
 
 afterAll(() => {
   server.close()

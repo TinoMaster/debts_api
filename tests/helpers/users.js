@@ -69,7 +69,7 @@ const initialUsers = [
   }
 ]
 
-const getAllUsers = async () => await api.get('/api/v1/users')
+const getAllUsers = async (token) => await api.get('/api/v1/users').set('Authorization', `Bearer ${token}`)
 
 const createOneUser = async (newUser) => await api.post('/api/v1/users/register').send(newUser)
 

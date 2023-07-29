@@ -9,7 +9,20 @@ const UserSchema = new Schema(
     password: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     role: { type: String, required: true },
-    active: { type: Boolean, required: true }
+    active: { type: Boolean, required: true },
+    contactRequestsSent: [
+      {
+        user: { type: Schema.Types.ObjectId, ref: 'User' },
+        confirmed: { type: Boolean, default: false }
+      }
+    ],
+    contactRequestsReceived: [
+      {
+        user: { type: Schema.Types.ObjectId, ref: 'User' },
+        confirmed: { type: Boolean, default: false }
+      }
+    ],
+    contacts: [{ type: Schema.Types.ObjectId, ref: 'User' }]
   },
   {
     timestamps: true

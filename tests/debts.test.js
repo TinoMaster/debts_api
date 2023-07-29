@@ -22,15 +22,15 @@ beforeAll(async () => {
   }
 })
 
-describe('GET Notes', () => {
+describe('GET DEBTS', () => {
   test(`Me devuelve los ${initialDebts.length} elementos de inicio`, async () => {
     const allDebts = await getAllDebts()
     expect(allDebts.length).toBe(initialDebts.length)
   })
 })
 
-describe('POST Notes', () => {
-  test(`Crea una nota y ahora son ${initialDebts.length + 1}`, async () => {
+describe('POST DEBTS', () => {
+  test(`Crea una debt y ahora son ${initialDebts.length + 1}`, async () => {
     await createOneDebt()
     const allDebts = await getAllDebts()
     expect(allDebts.length).toBe(initialDebts.length + 1)
