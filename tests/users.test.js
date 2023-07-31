@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const UserModel = require('../models/users.model')
 /* Helpers */
-const { initialUsers, server, getAllUsers, createOneUser, loginUser } = require('./helpers/users')
+const { initialUsers, server, getAllUsers, createOneUser, loginUser, createTrueToken } = require('./helpers/users')
 
 let token = ''
 
@@ -10,35 +10,31 @@ beforeAll(async () => {
   for (const user of initialUsers) {
     await UserModel.create(user)
   }
+  token = await createTrueToken()
 })
 
 describe('POST Users', () => {
   test(`Crea un usuario y ahora son ${initialUsers.length + 1}`, async () => {
     const newUser = {
-      username: 'Karla2348873433',
-      name: 'Karla',
-      password: 'karla1234',
-      email: 'karla@gmail.com',
+      username: 'Karlos2348873433',
+      name: 'Karlos',
+      password: 'karlos1234',
+      email: 'karlos@gmail.com',
       role: 'user',
       active: true
     }
 
     const response = await createOneUser(newUser)
-    const dataLogin = {
-      email: 'karla@gmail.com',
-      password: 'karla1234'
-    }
-    const login = await loginUser(dataLogin)
-    token = login.body.data.token
+
     const responseUsers = await getAllUsers(token)
     const allUsers = responseUsers.body.data
 
     const dataResponse = response.body.data
 
-    expect(dataResponse.username).toBe('Karla2348873433')
+    expect(dataResponse.username).toBe('Karlos2348873433')
     expect(response.status).toBe(201)
     expect(response.created).toBe(true)
-    expect(allUsers.length).toBe(initialUsers.length + 1)
+    expect(allUsers.length).toBe(initialUsers.length + 2)
   })
 
   test('Crea un usuario con campo vacio', async () => {
@@ -112,10 +108,10 @@ describe('Login User', () => {
 })
 
 describe('GET Users', () => {
-  test(`Me devuelve los ${initialUsers.length} elementos de inicio + 1 que cree`, async () => {
+  test(`Me devuelve los ${initialUsers.length} elementos de inicio + 2 que cree`, async () => {
     const allUsers = await getAllUsers(token)
     const users = allUsers.body.data
-    expect(users.length).toBe(initialUsers.length + 1)
+    expect(users.length).toBe(initialUsers.length + 2)
   })
 })
 

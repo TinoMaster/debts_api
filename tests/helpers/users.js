@@ -75,4 +75,22 @@ const createOneUser = async (newUser) => await api.post('/api/v1/users/register'
 
 const loginUser = async (dataLogin) => await api.post('/api/v1/users/login').send(dataLogin)
 
-module.exports = { initialUsers, server, getAllUsers, createOneUser, loginUser }
+const createTrueToken = async () => {
+  const newUser = {
+    username: 'Karla2348873433',
+    name: 'Karla',
+    password: 'karla1234',
+    email: 'karla@gmail.com',
+    role: 'user',
+    active: true
+  }
+
+  await createOneUser(newUser)
+  const dataLogin = {
+    email: 'karla@gmail.com',
+    password: 'karla1234'
+  }
+  const login = await loginUser(dataLogin)
+  return login.body.data.token
+}
+module.exports = { initialUsers, server, getAllUsers, createOneUser, loginUser, createTrueToken }

@@ -65,12 +65,13 @@ const initialDebts = [
   }
 ]
 
-const getAllDebts = async () => {
-  const response = await api.get('/api/v1/debts')
+const getAllDebts = async (token) => {
+  console.log(token)
+  const response = await api.get('/api/v1/debts').set('Authorization', `Bearer ${token}`)
   return response.body.data
 }
 
-const createOneDebt = async () => {
+const createOneDebt = async (token) => {
   const newNote = {
     name: 'Oscar con Javier',
     description: 'Moto',
@@ -91,7 +92,7 @@ const createOneDebt = async () => {
     ],
     comentario: []
   }
-  const response = await api.post('/api/v1/debts').send(newNote)
+  const response = await api.post('/api/v1/debts').send(newNote).set('Authorization', `Bearer ${token}`)
   return response.body.data
 }
 
