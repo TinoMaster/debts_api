@@ -25,4 +25,17 @@ UserService.createUser = async (req, res, next) => {
   })
 }
 
+UserService.contactRequest = (req, res, next) => {
+  const { idRequester, idReciever } = req.body
+  if (!idRequester || !idReciever) {
+    res.status(422).json({ error: true, message: 'bad request' })
+  }
+  UserController.contactRequest(idRequester, idReciever, (err, docs) => {
+    if (err) {
+      res.status(422).json({ error: true, message: 'bad request' })
+      next(err)
+    } else res.status(201).json({ success: true, message: 'peticion enviada' })
+  })
+}
+
 module.exports = UserService

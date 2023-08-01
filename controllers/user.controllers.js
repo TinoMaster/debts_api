@@ -13,4 +13,8 @@ UserController.createUser = (user, cb) => {
     .catch((err) => cb(err, null))
 }
 
+/* UserController.contactRequest = (idRequester, idReciever, cb) => {
+
+} */
+
 module.exports = UserController

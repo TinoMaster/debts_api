@@ -93,4 +93,6 @@ const createTrueToken = async () => {
   const login = await loginUser(dataLogin)
   return login.body.data.token
 }
-module.exports = { initialUsers, server, getAllUsers, createOneUser, loginUser, createTrueToken }
+const requestContact = async (dataContact, token) =>
+  await api.post('/api/v1/users/contactrequest').send(dataContact).set('Authorization', `Bearer ${token}`)
+module.exports = { initialUsers, server, getAllUsers, createOneUser, loginUser, createTrueToken, requestContact }

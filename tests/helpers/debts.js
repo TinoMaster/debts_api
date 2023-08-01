@@ -66,7 +66,6 @@ const initialDebts = [
 ]
 
 const getAllDebts = async (token) => {
-  console.log(token)
   const response = await api.get('/api/v1/debts').set('Authorization', `Bearer ${token}`)
   return response.body.data
 }

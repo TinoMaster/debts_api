@@ -1,7 +1,15 @@
 const mongoose = require('mongoose')
 const UserModel = require('../models/users.model')
 /* Helpers */
-const { initialUsers, server, getAllUsers, createOneUser, loginUser, createTrueToken } = require('./helpers/users')
+const {
+  initialUsers,
+  server,
+  getAllUsers,
+  createOneUser,
+  loginUser,
+  createTrueToken,
+  requestContact
+} = require('./helpers/users')
 
 let token = ''
 
@@ -115,10 +123,19 @@ describe('GET Users', () => {
   })
 })
 
-/* describe('REQUEST CONTACT', () => {
-  test('should ', async () => { 
-  });
-}) */
+describe('REQUEST CONTACT', () => {
+  test('should ', async () => {
+    const users = await getAllUsers(token)
+    const idRequester = users.body.data[0]._id
+    const idReciever = users.body.data[1]._id
+    const body = {
+      idRequester,
+      idReciever
+    }
+    const res = await requestContact(body, token)
+    console.log(res)
+  })
+})
 
 afterAll(() => {
   server.close()
