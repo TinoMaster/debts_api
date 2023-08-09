@@ -124,10 +124,13 @@ describe('GET Users', () => {
 })
 
 describe('REQUEST CONTACT', () => {
+  let users, idRequester, idReciever
+  beforeAll(async () => {
+    users = await getAllUsers(token)
+    idRequester = users.body.data[0]._id
+    idReciever = users.body.data[1]._id
+  })
   test('Acepta correctamente la peticion de amistad', async () => {
-    const users = await getAllUsers(token)
-    const idRequester = users.body.data[0]._id
-    const idReciever = users.body.data[1]._id
     const body = {
       idRequester,
       idReciever
@@ -136,6 +139,33 @@ describe('REQUEST CONTACT', () => {
     expect(res.body.success).toBe(true)
     expect(res.body.data.userReciever.contactRequestsReceived[0].user).toBe(idReciever)
     expect(res.body.data.userRequester.contactRequestsSent[0].user).toBe(idRequester)
+  })
+
+  test('le paso un idReciever que no existe', async () => {
+    const body = {
+      idRequester,
+      idReciever: '454dsd877s8da8sd7a'
+    }
+    const res = await requestContact(body, token)
+    expect(res.body.error).toBe(true)
+  })
+
+  test('le paso un idRequester que no existe', async () => {
+    const body = {
+      idRequester: '45d454ds8d48asd45a',
+      idReciever
+    }
+    const res = await requestContact(body, token)
+    expect(res.body.error).toBe(true)
+  })
+
+  test('le dejo de pasar un id', async () => {
+    const body = {
+      idRequester
+    }
+    const res = await requestContact(body, token)
+    console.log(res.body)
+    expect(res.body.error).toBe(true)
   })
 })
 
