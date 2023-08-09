@@ -124,7 +124,7 @@ describe('GET Users', () => {
 })
 
 describe('REQUEST CONTACT', () => {
-  test('should ', async () => {
+  test('Acepta correctamente la peticion de amistad', async () => {
     const users = await getAllUsers(token)
     const idRequester = users.body.data[0]._id
     const idReciever = users.body.data[1]._id
@@ -133,7 +133,9 @@ describe('REQUEST CONTACT', () => {
       idReciever
     }
     const res = await requestContact(body, token)
-    console.log(res)
+    expect(res.body.success).toBe(true)
+    expect(res.body.data.userReciever.contactRequestsReceived[0].user).toBe(idReciever)
+    expect(res.body.data.userRequester.contactRequestsSent[0].user).toBe(idRequester)
   })
 })
 

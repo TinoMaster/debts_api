@@ -8,9 +8,6 @@ router.post('/users/register', UserServices.createUser)
 router.get('/users/isLogin', checkIsUser, (req, res) => {
   res.json({ success: true })
 })
-router.post('/users/contactrequest', checkIsUser, (req, res) => {
-  const { idRequester, idReciever } = req.body
-  res.json({ success: true, idRequester, idReciever })
-})
+router.post('/users/contactrequest', checkIsUser, UserServices.contactRequest)
 
 module.exports = router

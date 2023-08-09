@@ -13,8 +13,27 @@ UserController.createUser = (user, cb) => {
     .catch((err) => cb(err, null))
 }
 
-/* UserController.contactRequest = (idRequester, idReciever, cb) => {
-
-} */
+UserController.contactRequest = async (idRequester, idReciever, cb) => {
+  try {
+    const existUser1 = await UserModel.findOne({ _id: idRequester })
+    const existUser2 = await UserModel.findOne({ _id: idReciever })
+    if (existUser1 && existUser2) {
+      const userRequester = await UserModel.findOneAndUpdate(
+        { _id: idRequester },
+        { $push: { contactRequestsSent: { user: idRequester } } },
+        { new: true }
+      )
+      const userReciever = await UserModel.findOneAndUpdate(
+        { _id: idReciever },
+        { $push: { contactRequestsReceived: { user: idReciever } } },
+        { new: true }
+      )
+      const docs = { userReciever, userRequester }
+      cb(null, docs)
+    }
+  } catch (error) {
+    cb(error, null)
+  }
+}
 
 module.exports = UserController
