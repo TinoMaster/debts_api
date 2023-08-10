@@ -8,7 +8,8 @@ const {
   createOneUser,
   loginUser,
   createTrueToken,
-  requestContact
+  requestContact,
+  responseFriendRequest
 } = require('./helpers/users')
 
 let token = ''
@@ -137,8 +138,8 @@ describe('REQUEST CONTACT', () => {
     }
     const res = await requestContact(body, token)
     expect(res.body.success).toBe(true)
-    expect(res.body.data.userReciever.contactRequestsReceived[0].user).toBe(idReciever)
-    expect(res.body.data.userRequester.contactRequestsSent[0].user).toBe(idRequester)
+    expect(res.body.data.userReciever.contactRequestsReceived[0].user).toBe(idRequester)
+    expect(res.body.data.userRequester.contactRequestsSent[0].user).toBe(idReciever)
   })
 
   test('le paso un idReciever que no existe', async () => {
@@ -164,7 +165,39 @@ describe('REQUEST CONTACT', () => {
       idRequester
     }
     const res = await requestContact(body, token)
-    console.log(res.body)
+    expect(res.body.error).toBe(true)
+  })
+})
+
+describe('Accept friend request', () => {
+  let users, idRequester, idReciever
+  beforeAll(async () => {
+    users = await getAllUsers(token)
+    idRequester = users.body.data[0]._id
+    idReciever = users.body.data[1]._id
+  })
+
+  test('Le paso todo correcto con la peticion aceptada', async () => {
+    const body = {
+      idRequester,
+      idReciever,
+      response: true
+    }
+    const res = await responseFriendRequest(body, token)
+    expect(res.body.success).toBe(true)
+    expect(res.body.data.userReciever.contactRequestsReceived.length).toBe(0)
+    expect(res.body.data.userRequester.contactRequestsSent.length).toBe(0)
+    expect(res.body.data.userReciever.contacts.length).toBe(1)
+    expect(res.body.data.userRequester.contacts.length).toBe(1)
+  })
+
+  test('Le paso ids que no estan entre las peticiones', async () => {
+    const body = {
+      idRequester,
+      idReciever,
+      response: true
+    }
+    const res = await responseFriendRequest(body, token)
     expect(res.body.error).toBe(true)
   })
 })

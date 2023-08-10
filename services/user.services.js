@@ -29,12 +29,30 @@ UserService.contactRequest = (req, res, next) => {
   const { idRequester, idReciever } = req.body
   if (!idRequester || !idReciever) {
     res.status(422).json({ error: true, message: 'bad request' })
+  } else if (idRequester === idReciever) {
+    res.status(422).json({ error: true, message: 'bad request' })
   } else {
     UserController.contactRequest(idRequester, idReciever, (err, docs) => {
       if (err) {
         res.status(422).json({ error: true, message: 'bad request' })
         next(err)
       } else res.status(201).json({ success: true, message: 'peticion enviada', data: docs })
+    })
+  }
+}
+
+UserService.acceptFriendRequest = (req, res, next) => {
+  const { idRequester, idReciever, response } = req.body
+  if (!idRequester || !idReciever) {
+    res.status(422).json({ error: true, message: 'bad request' })
+  } else if (idRequester === idReciever) {
+    res.status(422).json({ error: true, message: 'bad request' })
+  } else {
+    UserController.acceptFriendRequest(idRequester, idReciever, response, (err, docs) => {
+      if (err) {
+        res.status(422).json({ error: true, message: 'bad request' })
+        next(err)
+      } else res.status(201).json({ success: true, message: 'Amistad aceptada', data: docs })
     })
   }
 }

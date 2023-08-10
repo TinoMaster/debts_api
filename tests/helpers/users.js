@@ -75,6 +75,12 @@ const createOneUser = async (newUser) => await api.post('/api/v1/users/register'
 
 const loginUser = async (dataLogin) => await api.post('/api/v1/users/login').send(dataLogin)
 
+const requestContact = async (dataContact, token) =>
+  await api.post('/api/v1/users/contactrequest').send(dataContact).set('Authorization', `Bearer ${token}`)
+
+const responseFriendRequest = async (dataContact, token) =>
+  await api.post('/api/v1/users/response_friend_request').send(dataContact).set('Authorization', `Bearer ${token}`)
+
 const createTrueToken = async () => {
   const newUser = {
     username: 'Karla2348873433',
@@ -93,6 +99,13 @@ const createTrueToken = async () => {
   const login = await loginUser(dataLogin)
   return login.body.data.token
 }
-const requestContact = async (dataContact, token) =>
-  await api.post('/api/v1/users/contactrequest').send(dataContact).set('Authorization', `Bearer ${token}`)
-module.exports = { initialUsers, server, getAllUsers, createOneUser, loginUser, createTrueToken, requestContact }
+module.exports = {
+  initialUsers,
+  server,
+  getAllUsers,
+  createOneUser,
+  loginUser,
+  createTrueToken,
+  requestContact,
+  responseFriendRequest
+}

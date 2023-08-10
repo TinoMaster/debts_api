@@ -22,7 +22,7 @@ const UserSchema = new Schema(
         confirmed: { type: Boolean, default: false }
       }
     ],
-    contacts: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+    contacts: [{ friend: { type: Schema.Types.ObjectId, ref: 'User' } }]
   },
   {
     timestamps: true
