@@ -125,16 +125,17 @@ describe('GET Users', () => {
 })
 
 describe('REQUEST CONTACT', () => {
-  let users, idRequester, idReciever
+  let users, idRequester, idReciever, username
   beforeAll(async () => {
     users = await getAllUsers(token)
     idRequester = users.body.data[0]._id
     idReciever = users.body.data[1]._id
+    username = users.body.data[1].username
   })
   test('Acepta correctamente la peticion de amistad', async () => {
     const body = {
       idRequester,
-      idReciever
+      username
     }
     const res = await requestContact(body, token)
     expect(res.body.success).toBe(true)

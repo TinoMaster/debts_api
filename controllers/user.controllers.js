@@ -13,11 +13,12 @@ UserController.createUser = (user, cb) => {
     .catch((err) => cb(err, null))
 }
 
-UserController.contactRequest = async (idRequester, idReciever, cb) => {
+UserController.contactRequest = async (idRequester, username, cb) => {
   try {
     const existUser1 = await UserModel.findOne({ _id: idRequester })
-    const existUser2 = await UserModel.findOne({ _id: idReciever })
+    const existUser2 = await UserModel.findOne({ username })
     if (existUser1 && existUser2) {
+      const idReciever = existUser2._id
       const userRequester = await UserModel.findOneAndUpdate(
         { _id: idRequester },
         { $push: { contactRequestsSent: { user: idReciever } } },
