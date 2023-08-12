@@ -9,10 +9,10 @@ UserController.get_all = (cb) => {
 
 UserController.getContacts = async (id, cb) => {
   try {
-    const user = await UserModel.findOne({ _id: id }) /* .populate({
-      path: 'contacts.friend'
-    }) */
-    console.log(user)
+    const user = await UserModel.findOne({ _id: id })
+      .populate('contactRequestsSent.user', 'username name') // Popula el campo contactRequestsSent.user y selecciona los campos a mostrar
+      .populate('contactRequestsReceived.user', 'username name')
+      .populate('contacts.friend', 'username name')
     const contacts = user.contacts
     const contactRequestsSent = user.contactRequestsSent
     const contactRequestsReceived = user.contactRequestsReceived

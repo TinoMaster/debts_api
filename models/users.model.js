@@ -12,17 +12,17 @@ const UserSchema = new Schema(
     active: { type: Boolean, required: true },
     contactRequestsSent: [
       {
-        user: { type: Schema.Types.ObjectId, ref: 'User' },
+        user: { type: Schema.Types.ObjectId, ref: 'Users' },
         confirmed: { type: Boolean, default: false }
       }
     ],
     contactRequestsReceived: [
       {
-        user: { type: Schema.Types.ObjectId, ref: 'User' },
+        user: { type: Schema.Types.ObjectId, ref: 'Users' },
         confirmed: { type: Boolean, default: false }
       }
     ],
-    contacts: [{ friend: { type: Schema.Types.ObjectId, ref: 'User' } }]
+    contacts: [{ friend: { type: Schema.Types.ObjectId, ref: 'Users' } }]
   },
   {
     timestamps: true
