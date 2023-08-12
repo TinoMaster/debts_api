@@ -7,6 +7,22 @@ UserController.get_all = (cb) => {
     .catch((err) => cb(err, null))
 }
 
+UserController.getContacts = async (id, cb) => {
+  try {
+    const user = await UserModel.findOne({ _id: id }) /* .populate({
+      path: 'contacts.friend'
+    }) */
+    console.log(user)
+    const contacts = user.contacts
+    const contactRequestsSent = user.contactRequestsSent
+    const contactRequestsReceived = user.contactRequestsReceived
+    const docs = { contacts, contactRequestsReceived, contactRequestsSent }
+    cb(null, docs)
+  } catch (error) {
+    cb(error, null)
+  }
+}
+
 UserController.createUser = (user, cb) => {
   UserModel.create(user)
     .then((res) => cb(null, res))

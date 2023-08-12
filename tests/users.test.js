@@ -5,6 +5,7 @@ const {
   initialUsers,
   server,
   getAllUsers,
+  getContacts,
   createOneUser,
   loginUser,
   createTrueToken,
@@ -200,6 +201,19 @@ describe('Accept friend request', () => {
     }
     const res = await responseFriendRequest(body, token)
     expect(res.body.error).toBe(true)
+  })
+})
+
+describe('Get Contacts', () => {
+  let users, id
+  beforeAll(async () => {
+    users = await getAllUsers(token)
+    id = users.body.data[0]._id
+  })
+
+  test('Peticion correcta de contactos ', async () => {
+    const res = await getContacts(id, token)
+    console.log(res.body.data.contacts)
   })
 })
 

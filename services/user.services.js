@@ -11,6 +11,16 @@ UserService.get_all = (req, res, next) => {
   })
 }
 
+UserService.getContacts = (req, res, next) => {
+  const { id } = req.params
+  UserController.getContacts(id, (error, docs) => {
+    if (error) {
+      res.status(401).json({ error: true, message: 'bad request' })
+      next(error)
+    } else res.status(201).json({ success: true, data: docs })
+  })
+}
+
 UserService.createUser = async (req, res, next) => {
   const passwordHash = await hashPassword(req.body.password)
   const user = {

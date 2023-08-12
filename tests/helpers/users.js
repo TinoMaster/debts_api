@@ -71,6 +71,9 @@ const initialUsers = [
 
 const getAllUsers = async (token) => await api.get('/api/v1/users').set('Authorization', `Bearer ${token}`)
 
+const getContacts = async (id, token) =>
+  await api.get(`/api/v1/users/contacts/${id}`).set('Authorization', `Bearer ${token}`)
+
 const createOneUser = async (newUser) => await api.post('/api/v1/users/register').send(newUser)
 
 const loginUser = async (dataLogin) => await api.post('/api/v1/users/login').send(dataLogin)
@@ -103,6 +106,7 @@ module.exports = {
   initialUsers,
   server,
   getAllUsers,
+  getContacts,
   createOneUser,
   loginUser,
   createTrueToken,
