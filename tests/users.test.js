@@ -213,7 +213,7 @@ describe('Get Contacts', () => {
 
   test('Peticion correcta de contactos ', async () => {
     const res = await getContacts(id, token)
-    console.log(res.body.data)
+    expect(res.body.success).toBe(true)
   })
 })
 

@@ -4,7 +4,7 @@ const router = require('express').Router()
 
 /* Pendiente usar los protectores de rutas */
 router.get('/users', /* checkIsAdmin */ checkIsUser, UserServices.get_all)
-router.get('/users/contacts/:id', /* checkIsAdmin */ checkIsUser, UserServices.getContacts)
+router.get('/users/contacts/:id', checkIsUser, UserServices.getContacts)
 router.post('/users/register', UserServices.createUser)
 router.get('/users/isLogin', checkIsUser, (req, res) => {
   res.json({ success: true })
