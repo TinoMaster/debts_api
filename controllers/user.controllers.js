@@ -10,7 +10,7 @@ UserController.get_all = (cb) => {
 UserController.getContacts = async (id, cb) => {
   try {
     const user = await UserModel.findOne({ _id: id })
-      .populate('contactRequestsSent.user', 'username name') // Popula el campo contactRequestsSent.user y selecciona los campos a mostrar
+      .populate('contactRequestsSent.user', 'username name')
       .populate('contactRequestsReceived.user', 'username name')
       .populate('contacts.friend', 'username name')
     const contacts = user.contacts
@@ -33,7 +33,7 @@ UserController.contactRequest = async (idRequester, username, cb) => {
   try {
     const existUser1 = await UserModel.findOne({ _id: idRequester })
     const existUser2 = await UserModel.findOne({ username })
-    if (existUser1 && existUser2) {
+    if (existUser1 && existUser2 && existUser1._id.toString() !== existUser2._id.toString()) {
       const idReciever = existUser2._id
       const userRequester = await UserModel.findOneAndUpdate(
         { _id: idRequester },
@@ -47,13 +47,13 @@ UserController.contactRequest = async (idRequester, username, cb) => {
       )
       const docs = { userReciever, userRequester }
       cb(null, docs)
-    }
+    } else throw new Error('bad requestttttttt')
   } catch (error) {
     cb(error, null)
   }
 }
 
-UserController.acceptFriendRequest = async (idRequester, idReciever, response, cb) => {
+UserController.responseFriendRequest = async (idRequester, idReciever, response, cb) => {
   try {
     const existUser1 = await UserModel.findOne({ _id: idRequester })
     const existUser2 = await UserModel.findOne({ _id: idReciever })
@@ -91,6 +91,31 @@ UserController.acceptFriendRequest = async (idRequester, idReciever, response, c
       const error = true
       cb(error, null)
     }
+  } catch (error) {
+    cb(error, null)
+  }
+}
+
+UserController.deleteFriend = async (idRequester, idReciever, cb) => {
+  try {
+    const existUser1 = await UserModel.findOne({ _id: idRequester })
+    const existUser2 = await UserModel.findOne({ _id: idReciever })
+    const existPet1 = existUser1.contacts.some((obj) => obj.friend.toString() === idReciever)
+    const existPet2 = existUser2.contacts.some((obj) => obj.friend.toString() === idRequester)
+    if (existPet1 && existPet2) {
+      const userRequester = await UserModel.findOneAndUpdate(
+        { _id: idRequester },
+        { $pull: { contacts: { friend: idReciever } } },
+        { new: true }
+      )
+      const userReciever = await UserModel.findOneAndUpdate(
+        { _id: idReciever },
+        { $pull: { contacts: { friend: idRequester } } },
+        { new: true }
+      )
+      const docs = { userRequester, userReciever }
+      cb(null, docs)
+    } else throw new Error('bad request')
   } catch (error) {
     cb(error, null)
   }

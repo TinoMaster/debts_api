@@ -1,6 +1,5 @@
 const notFound = (err, req, res, next) => {
-  console.log(err.name)
-  res.status(err.status).send({ error: err })
+  res.status(err.status).json({ error: true, message: err.message })
 }
 
 module.exports = notFound

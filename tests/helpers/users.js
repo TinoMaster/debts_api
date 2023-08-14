@@ -84,6 +84,9 @@ const requestContact = async (dataContact, token) =>
 const responseFriendRequest = async (dataContact, token) =>
   await api.post('/api/v1/users/response_friend_request').send(dataContact).set('Authorization', `Bearer ${token}`)
 
+const deleteFriend = async (dataContacts, token) =>
+  await api.post('/api/v1/users/delete_friend').send(dataContacts).set('Authorization', `Bearer ${token}`)
+
 const createTrueToken = async () => {
   const newUser = {
     username: 'Karla2348873433',
@@ -111,5 +114,6 @@ module.exports = {
   loginUser,
   createTrueToken,
   requestContact,
-  responseFriendRequest
+  responseFriendRequest,
+  deleteFriend
 }

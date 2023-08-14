@@ -10,7 +10,8 @@ const {
   loginUser,
   createTrueToken,
   requestContact,
-  responseFriendRequest
+  responseFriendRequest,
+  deleteFriend
 } = require('./helpers/users')
 
 let token = ''
@@ -126,12 +127,13 @@ describe('GET Users', () => {
 })
 
 describe('REQUEST CONTACT', () => {
-  let users, idRequester, idReciever, username
+  let users, idRequester, idReciever, username, usernameRequester
   beforeAll(async () => {
     users = await getAllUsers(token)
     idRequester = users.body.data[0]._id
     idReciever = users.body.data[1]._id
     username = users.body.data[1].username
+    usernameRequester = users.body.data[0].username
   })
   test('Acepta correctamente la peticion de amistad', async () => {
     const body = {
@@ -169,9 +171,18 @@ describe('REQUEST CONTACT', () => {
     const res = await requestContact(body, token)
     expect(res.body.error).toBe(true)
   })
+
+  test('le paso el mismo username del que hace la peticion ', async () => {
+    const body = {
+      idRequester,
+      username: usernameRequester
+    }
+    const res = await requestContact(body, token)
+    expect(res.body.error).toBe(true)
+  })
 })
 
-describe('Accept friend request', () => {
+describe('Accept friend request or delete friend', () => {
   let users, idRequester, idReciever
   beforeAll(async () => {
     users = await getAllUsers(token)
@@ -201,6 +212,15 @@ describe('Accept friend request', () => {
     }
     const res = await responseFriendRequest(body, token)
     expect(res.body.error).toBe(true)
+  })
+
+  test('Eliminar un amigo', async () => {
+    const body = {
+      idRequester,
+      idReciever
+    }
+    const res = await deleteFriend(body, token)
+    expect(res.body.success).toBe(true)
   })
 })
 

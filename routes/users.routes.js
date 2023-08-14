@@ -10,6 +10,7 @@ router.get('/users/isLogin', checkIsUser, (req, res) => {
   res.json({ success: true })
 })
 router.post('/users/contactrequest', checkIsUser, UserServices.contactRequest)
-router.post('/users/response_friend_request', checkIsUser, UserServices.acceptFriendRequest)
+router.post('/users/response_friend_request', checkIsUser, UserServices.responseFriendRequest)
+router.post('/users/delete_friend', checkIsUser, UserServices.deleteFriend)
 
 module.exports = router
