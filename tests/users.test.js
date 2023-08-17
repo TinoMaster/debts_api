@@ -11,6 +11,7 @@ const {
   createTrueToken,
   requestContact,
   responseFriendRequest,
+  deleteFriendRequest,
   deleteFriend
 } = require('./helpers/users')
 
@@ -135,7 +136,7 @@ describe('REQUEST CONTACT', () => {
     username = users.body.data[1].username
     usernameRequester = users.body.data[0].username
   })
-  test('Acepta correctamente la peticion de amistad', async () => {
+  test('Hago correctamente la peticion de amistad', async () => {
     const body = {
       idRequester,
       username
@@ -144,6 +145,15 @@ describe('REQUEST CONTACT', () => {
     expect(res.body.success).toBe(true)
     expect(res.body.data.userReciever.contactRequestsReceived[0].user).toBe(idRequester)
     expect(res.body.data.userRequester.contactRequestsSent[0].user).toBe(idReciever)
+  })
+
+  test('Hago la peticion de amistad doble', async () => {
+    const body = {
+      idRequester,
+      username
+    }
+    const res = await requestContact(body, token)
+    expect(res.body.error).toBe(true)
   })
 
   test('le paso un idReciever que no existe', async () => {
@@ -179,6 +189,21 @@ describe('REQUEST CONTACT', () => {
     }
     const res = await requestContact(body, token)
     expect(res.body.error).toBe(true)
+  })
+
+  test('Borra correctamente una peticion de amistad hecha por el propio user ', async () => {
+    const bodyRequest = {
+      idRequester,
+      username
+    }
+    const bodyDelete = {
+      idRequester,
+      idReciever
+    }
+    const resDelete = await deleteFriendRequest(bodyDelete, token)
+    const resRequest = await requestContact(bodyRequest, token)
+    expect(resRequest.body.success).toBe(true)
+    expect(resDelete.body.success).toBe(true)
   })
 })
 

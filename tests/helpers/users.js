@@ -84,6 +84,9 @@ const requestContact = async (dataContact, token) =>
 const responseFriendRequest = async (dataContact, token) =>
   await api.post('/api/v1/users/response_friend_request').send(dataContact).set('Authorization', `Bearer ${token}`)
 
+const deleteFriendRequest = async (dataContact, token) =>
+  await api.post('/api/v1/users/delete_friend_request').send(dataContact).set('Authorization', `Bearer ${token}`)
+
 const deleteFriend = async (dataContacts, token) =>
   await api.post('/api/v1/users/delete_friend').send(dataContacts).set('Authorization', `Bearer ${token}`)
 
@@ -115,5 +118,6 @@ module.exports = {
   createTrueToken,
   requestContact,
   responseFriendRequest,
+  deleteFriendRequest,
   deleteFriend
 }

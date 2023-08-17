@@ -60,7 +60,36 @@ UserService.responseFriendRequest = (req, res, next) => {
       if (err) {
         res.status(422).json({ error: true, message: 'bad request' })
         next(err)
-      } else res.status(201).json({ success: true, message: 'Amistad aceptada', data: docs })
+      } else {
+        res.status(201).json({
+          success: true,
+          message: `Amistad ${response ? 'aceptada' : 'rechasada'}`,
+          accept: response,
+          data: docs
+        })
+      }
+    })
+  }
+}
+
+UserService.deleteFriendRequest = (req, res, next) => {
+  const { idRequester, idReciever } = req.body
+  if (!idRequester || !idReciever) {
+    res.status(422).json({ error: true, message: 'bad request' })
+  } else if (idRequester === idReciever) {
+    res.status(422).json({ error: true, message: 'bad request' })
+  } else {
+    UserController.deleteFriendRequest(idRequester, idReciever, (err, docs) => {
+      if (err) {
+        res.status(422).json({ error: true, message: 'bad request' })
+        next(err)
+      } else {
+        res.status(201).json({
+          success: true,
+          message: 'Solicitud eliminada',
+          data: docs
+        })
+      }
     })
   }
 }
@@ -71,7 +100,6 @@ UserService.deleteFriend = (req, res) => {
     if (error) {
       res.status(401).json({ error: true, message: 'bad request' })
     } else res.status(201).json({ success: true, data: docs })
-    /* if (error) next(error) */
   })
 }
 

@@ -28,12 +28,14 @@ UserController.createUser = (user, cb) => {
     .then((res) => cb(null, res))
     .catch((err) => cb(err, null))
 }
-
+/* //TODO:Validar que el request no este ya Realizado ni que exista ya entre los amigos */
 UserController.contactRequest = async (idRequester, username, cb) => {
   try {
     const existUser1 = await UserModel.findOne({ _id: idRequester })
     const existUser2 = await UserModel.findOne({ username })
-    if (existUser1 && existUser2 && existUser1._id.toString() !== existUser2._id.toString()) {
+    const isAlreadyARequest = existUser2?.contactRequestsReceived?.some((el) => el.user._id.toString() === idRequester)
+
+    if (existUser1 && existUser2 && existUser1._id.toString() !== existUser2._id.toString() && !isAlreadyARequest) {
       const idReciever = existUser2._id
       const userRequester = await UserModel.findOneAndUpdate(
         { _id: idRequester },
@@ -92,6 +94,30 @@ UserController.responseFriendRequest = async (idRequester, idReciever, response,
       cb(error, null)
     }
   } catch (error) {
+    cb(error, null)
+  }
+}
+
+UserController.deleteFriendRequest = async (idRequester, idReciever, cb) => {
+  try {
+    const existUser1 = await UserModel.findOne({ _id: idRequester })
+    const existUser2 = await UserModel.findOne({ _id: idReciever })
+    if (existUser1 && existUser2) {
+      const userRequester = await UserModel.findOneAndUpdate(
+        { _id: idRequester },
+        { $pull: { contactRequestsSent: { user: idReciever } } },
+        { new: true }
+      )
+      const userReciever = await UserModel.findOneAndUpdate(
+        { _id: idReciever },
+        { $pull: { contactRequestsReceived: { user: idRequester } } },
+        { new: true }
+      )
+      const docs = { userRequester, userReciever }
+      cb(null, docs)
+    } else throw new Error('Bad request')
+  } catch (error) {
+    console.log(error)
     cb(error, null)
   }
 }

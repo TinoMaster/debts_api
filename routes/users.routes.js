@@ -12,5 +12,6 @@ router.get('/users/isLogin', checkIsUser, (req, res) => {
 router.post('/users/contactrequest', checkIsUser, UserServices.contactRequest)
 router.post('/users/response_friend_request', checkIsUser, UserServices.responseFriendRequest)
 router.post('/users/delete_friend', checkIsUser, UserServices.deleteFriend)
+router.post('/users/delete_friend_request', checkIsUser, UserServices.deleteFriendRequest)
 
 module.exports = router
