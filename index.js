@@ -3,6 +3,8 @@ const express = require('express')
 const routerApi = require('./routes')
 const cors = require('cors')
 const notFound = require('./helpers/NotFound')
+const http = require('http')
+const { setupSocketServer } = require('./socket/socketHandler')
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -11,10 +13,14 @@ const PORT = process.env.PORT || 5000
 app.use(express.json())
 app.use(cors())
 
+/* //TODO:Terminar de configurar socket io */
 routerApi(app)
+const httpServer = http.createServer(app)
+setupSocketServer(httpServer)
+
 app.use(notFound)
 
-const server = app.listen(PORT, () => {
+const server = httpServer.listen(PORT, () => {
   console.log('Servidor corriendo en el puerto ' + PORT)
 })
 

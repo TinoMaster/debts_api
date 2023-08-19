@@ -1,5 +1,6 @@
 const UserController = require('../controllers/user.controllers')
 const hashPassword = require('../helpers/password.hash')
+const { emitContactRequest } = require('../socket/socketHandler')
 const UserService = () => {}
 
 UserService.get_all = (req, res, next) => {
@@ -43,7 +44,10 @@ UserService.contactRequest = (req, res) => {
     UserController.contactRequest(idRequester, username, (err, docs) => {
       if (err) {
         res.json({ error: true, message: 'bad request' })
-      } else res.status(201).json({ success: true, message: 'peticion enviada', data: docs })
+      } else {
+        res.status(201).json({ success: true, message: 'peticion enviada', data: docs })
+        emitContactRequest(idRequester)
+      }
     })
   }
 }
