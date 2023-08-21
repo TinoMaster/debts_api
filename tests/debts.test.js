@@ -2,10 +2,12 @@ const mongoose = require('mongoose')
 const DebtsModel = require('../models/debts.model')
 const UsersModel = require('../models/users.model')
 /* Helpers */
-const { initialDebts, server, getAllDebts, createOneDebt } = require('./helpers/debts')
+const { initialDebts, server, getAllDebts, createOneDebt, getMyDebts } = require('./helpers/debts')
 const { initialUsers, createTrueToken } = require('./helpers/users')
 
 let token = ''
+let id1
+let id2
 /* createTrueToken().then((res) => (token = res)) */
 
 beforeAll(async () => {
@@ -16,8 +18,8 @@ beforeAll(async () => {
   }
   token = await createTrueToken()
   const allUsers = await UsersModel.find()
-  const id1 = allUsers[0]._id
-  const id2 = allUsers[1]._id
+  id1 = allUsers[0]._id
+  id2 = allUsers[1]._id
   for (const note of initialDebts) {
     note.creador = id1
     note.acreedor = id2
@@ -26,20 +28,48 @@ beforeAll(async () => {
   }
 })
 
-describe('GET DEBTS', () => {
+describe('All DEBTS', () => {
   test(`Me devuelve los ${initialDebts.length} elementos de inicio`, async () => {
     const allDebts = await getAllDebts(token)
-    expect(allDebts.length).toBe(initialDebts.length)
+    expect(allDebts.body.data.length).toBe(initialDebts.length)
+  })
+
+  test(`Crea una debt y ahora son ${initialDebts.length + 1}`, async () => {
+    const newNote = {
+      name: 'Oscar con Javier',
+      description: 'Moto',
+      creador: '64ab2209388e4e4a26f41e03',
+      deudor: '64ab2209388e4e4a26f41e04',
+      acreedor: '64ab2209388e4e4a26f41e03',
+      deuda: 5000,
+      fecha: '2023-07-05T00:00:00.000Z',
+      pagada: {
+        isDone: false,
+        fecha: ''
+      },
+      pagos: [
+        {
+          fecha: '2023-07-06T00:00:00.000Z',
+          cantidad: 3000,
+          comentario: 'Este es el nuevo'
+        }
+      ],
+      comentario: []
+    }
+    const resNewNote = await createOneDebt(token, newNote)
+    console.log(resNewNote.body)
+    const allDebts = await getAllDebts(token)
+    console.log(allDebts.body)
+    expect(allDebts.body.data.length).toBe(initialDebts.length + 1)
+  })
+
+  test('Me devuelve solo las debts segun el id', async () => {
+    const myDebts = await getMyDebts(token, id1)
+    expect(myDebts.body.success).toBe(true)
   })
 })
 
-describe('POST DEBTS', () => {
-  test(`Crea una debt y ahora son ${initialDebts.length + 1}`, async () => {
-    await createOneDebt(token)
-    const allDebts = await getAllDebts(token)
-    expect(allDebts.length).toBe(initialDebts.length + 1)
-  })
-})
+/* describe('POST DEBTS', () => {}) */
 
 afterAll(() => {
   server.close()

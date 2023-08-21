@@ -3,6 +3,9 @@ const DebtsController = () => {}
 
 DebtsController.get_all_debts = (cb) => {
   DebtsModel.find()
+    .populate('creador', { username: 1, name: 1 })
+    .populate('deudor', { username: 1, name: 1 })
+    .populate('acreedor', { username: 1, name: 1 })
     .then((res) => cb(null, res))
     .catch((err) => cb(err, null))
 }

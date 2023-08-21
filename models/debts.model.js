@@ -41,7 +41,7 @@ const DebtsSchema = new Schema({
   deuda: Number,
   fecha: Date,
   pagada: { isDone: Boolean, fecha: Date },
-  pagos: [{ fecha: Date, cantidad: Number }],
+  pagos: [{ fecha: Date, cantidad: Number, comentario: String }],
   comentario: Array
 })
 

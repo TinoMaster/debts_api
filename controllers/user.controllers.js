@@ -28,7 +28,7 @@ UserController.createUser = (user, cb) => {
     .then((res) => cb(null, res))
     .catch((err) => cb(err, null))
 }
-/* //TODO:Validar que el request no este ya Realizado ni que exista ya entre los amigos */
+
 UserController.contactRequest = async (idRequester, username, cb) => {
   try {
     const existUser1 = await UserModel.findOne({ _id: idRequester })

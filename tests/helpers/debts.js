@@ -18,7 +18,8 @@ const initialDebts = [
     pagos: [
       {
         fecha: '2023-07-06T00:00:00.000Z',
-        cantidad: 3000
+        cantidad: 3000,
+        comentario: 'Esto es una prueba'
       }
     ],
     comentario: []
@@ -38,7 +39,8 @@ const initialDebts = [
     pagos: [
       {
         fecha: '2023-06-06T00:00:00.000Z',
-        cantidad: 1500
+        cantidad: 1500,
+        comentario: 'Esto es una prueba'
       }
     ],
     comentario: []
@@ -58,41 +60,19 @@ const initialDebts = [
     pagos: [
       {
         fecha: '2023-06-06T00:00:00.000Z',
-        cantidad: 1500
+        cantidad: 1500,
+        comentario: 'Esto es una prueba'
       }
     ],
     comentario: []
   }
 ]
 
-const getAllDebts = async (token) => {
-  const response = await api.get('/api/v1/debts').set('Authorization', `Bearer ${token}`)
-  return response.body.data
-}
+const getAllDebts = async (token) => await api.get('/api/v1/debts').set('Authorization', `Bearer ${token}`)
 
-const createOneDebt = async (token) => {
-  const newNote = {
-    name: 'Oscar con Javier',
-    description: 'Moto',
-    creador: '64ab2209388e4e4a26f41e03',
-    deudor: '64ab2209388e4e4a26f41e04',
-    acreedor: '64ab2209388e4e4a26f41e03',
-    deuda: 5000,
-    fecha: '2023-07-05T00:00:00.000Z',
-    pagada: {
-      isDone: false,
-      fecha: ''
-    },
-    pagos: [
-      {
-        fecha: '2023-07-06T00:00:00.000Z',
-        cantidad: 3000
-      }
-    ],
-    comentario: []
-  }
-  const response = await api.post('/api/v1/debts').send(newNote).set('Authorization', `Bearer ${token}`)
-  return response.body.data
-}
+const getMyDebts = async (token, id) => await api.get(`/api/v1/debts/${id}`).set('Authorization', `Bearer ${token}`)
 
-module.exports = { initialDebts, server, getAllDebts, createOneDebt }
+const createOneDebt = async (token, note) =>
+  await api.post('/api/v1/debts').send(note).set('Authorization', `Bearer ${token}`)
+
+module.exports = { initialDebts, server, getAllDebts, createOneDebt, getMyDebts }
