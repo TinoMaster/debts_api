@@ -2,13 +2,12 @@ const mongoose = require('mongoose')
 const DebtsModel = require('../models/debts.model')
 const UsersModel = require('../models/users.model')
 /* Helpers */
-const { initialDebts, server, getAllDebts, createOneDebt, getMyDebts } = require('./helpers/debts')
+const { initialDebts, server, getAllDebts, createOneDebt, getMyDebts, deleteDebt } = require('./helpers/debts')
 const { initialUsers, createTrueToken } = require('./helpers/users')
 
 let token = ''
 let id1
 let id2
-/* createTrueToken().then((res) => (token = res)) */
 
 beforeAll(async () => {
   await DebtsModel.deleteMany({})
@@ -57,15 +56,21 @@ describe('All DEBTS', () => {
       comentario: []
     }
     const resNewNote = await createOneDebt(token, newNote)
-    console.log(resNewNote.body)
     const allDebts = await getAllDebts(token)
-    console.log(allDebts.body)
+    expect(resNewNote.body.success).toBe(true)
     expect(allDebts.body.data.length).toBe(initialDebts.length + 1)
   })
 
   test('Me devuelve solo las debts segun el id', async () => {
     const myDebts = await getMyDebts(token, id1)
     expect(myDebts.body.success).toBe(true)
+  })
+
+  test(`Elimina una debt y  ahora son ${initialDebts.length} elementos`, async () => {
+    const alldebts = await getAllDebts(token)
+    const idDelete = alldebts.body.data[0]._id
+    const delDebt = await deleteDebt(token, idDelete)
+    expect(delDebt.body.success).toBe(true)
   })
 })
 

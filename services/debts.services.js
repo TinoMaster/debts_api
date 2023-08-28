@@ -26,4 +26,13 @@ DebtsServices.create_debt = (req, res, next) => {
   })
 }
 
+DebtsServices.deleteDebt = (req, res, next) => {
+  const { id } = req.params
+  DebtsController.deleteDebt(id, (error, docs) => {
+    if (error) {
+      res.status(422).json({ error: true, message: 'Bad request' })
+    } else res.status(201).json({ success: true, message: 'Debt Removed' })
+  })
+}
+
 module.exports = DebtsServices

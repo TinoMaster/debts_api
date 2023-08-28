@@ -25,4 +25,10 @@ DebtsController.create_debt = (data, cb) => {
     .catch((err) => cb(err, null))
 }
 
+DebtsController.deleteDebt = (id, cb) => {
+  DebtsModel.deleteOne({ _id: id })
+    .then((res) => cb(null, res))
+    .catch((err) => cb(err, null))
+}
+
 module.exports = DebtsController

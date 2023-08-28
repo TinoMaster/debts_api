@@ -75,4 +75,6 @@ const getMyDebts = async (token, id) => await api.get(`/api/v1/debts/${id}`).set
 const createOneDebt = async (token, note) =>
   await api.post('/api/v1/debts').send(note).set('Authorization', `Bearer ${token}`)
 
-module.exports = { initialDebts, server, getAllDebts, createOneDebt, getMyDebts }
+const deleteDebt = async (token, id) => await api.delete(`/api/v1/debts/${id}`).set('Authorization', `Bearer ${token}`)
+
+module.exports = { initialDebts, server, getAllDebts, createOneDebt, getMyDebts, deleteDebt }
