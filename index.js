@@ -13,7 +13,6 @@ const PORT = process.env.PORT || 5000
 app.use(express.json())
 app.use(cors())
 
-/* //TODO:Terminar de configurar socket io */
 routerApi(app)
 const httpServer = http.createServer(app)
 setupSocketServer(httpServer)

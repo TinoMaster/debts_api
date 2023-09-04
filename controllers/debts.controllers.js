@@ -31,13 +31,14 @@ DebtsController.deleteDebt = (id, cb) => {
     .catch((err) => cb(err, null))
 }
 
-DebtsController.addPayToDebt = async (_id, data, cb) => {
+DebtsController.addPayToDebt = async (id, data, cb) => {
   try {
-    const user = await DebtsModel.find({ _id })
-    const restopagos = user.pagos.reduce((rest, value) => (rest += value.cantidad), 0)
-    const restoTotal = user.deuda - restopagos - data.cantidad
+    const user = await DebtsModel.find({ _id: id })
+    const restopagos = user[0].pagos.reduce((rest, value) => (rest += value.cantidad), 0)
+    const restoTotal = user[0].deuda - restopagos - data.cantidad
+
     if (restoTotal >= 0) {
-      const userUpdate = await DebtsModel.findOneAndUpdate({ _id }, { $push: { pagos: { data } } })
+      const userUpdate = await DebtsModel.findOneAndUpdate({ _id: id }, { $push: { pagos: data } }, { new: true })
       cb(null, userUpdate)
     } else throw new Error('Bad request')
   } catch (error) {

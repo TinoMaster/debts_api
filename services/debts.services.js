@@ -34,7 +34,16 @@ DebtsServices.deleteDebt = (req, res, next) => {
     } else res.status(201).json({ success: true, message: 'Debt Removed' })
   })
 }
-/* //TODO: Crear la funcion correspondiente */
-/* DebtsServices.addPayToDebt = (req, res, next) => {} */
+
+DebtsServices.addPayToDebt = (req, res, next) => {
+  const { id } = req.params
+  const data = req.body
+
+  DebtsController.addPayToDebt(id, data, (err, docs) => {
+    if (err) {
+      res.json({ error: true, message: 'bad request' })
+    } else res.json({ success: true, data: docs })
+  })
+}
 
 module.exports = DebtsServices

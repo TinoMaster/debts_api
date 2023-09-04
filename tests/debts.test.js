@@ -2,7 +2,15 @@ const mongoose = require('mongoose')
 const DebtsModel = require('../models/debts.model')
 const UsersModel = require('../models/users.model')
 /* Helpers */
-const { initialDebts, server, getAllDebts, createOneDebt, getMyDebts, deleteDebt } = require('./helpers/debts')
+const {
+  initialDebts,
+  server,
+  getAllDebts,
+  createOneDebt,
+  getMyDebts,
+  deleteDebt,
+  addPayToDebt
+} = require('./helpers/debts')
 const { initialUsers, createTrueToken } = require('./helpers/users')
 
 let token = ''
@@ -28,8 +36,12 @@ beforeAll(async () => {
 })
 
 describe('All DEBTS', () => {
+  let allDebts = []
+  beforeAll(async () => {
+    allDebts = await getAllDebts(token)
+  })
+
   test(`Me devuelve los ${initialDebts.length} elementos de inicio`, async () => {
-    const allDebts = await getAllDebts(token)
     expect(allDebts.body.data.length).toBe(initialDebts.length)
   })
 
@@ -67,14 +79,36 @@ describe('All DEBTS', () => {
   })
 
   test(`Elimina una debt y  ahora son ${initialDebts.length} elementos`, async () => {
-    const alldebts = await getAllDebts(token)
-    const idDelete = alldebts.body.data[0]._id
+    const idDelete = allDebts.body.data[0]._id
     const delDebt = await deleteDebt(token, idDelete)
     expect(delDebt.body.success).toBe(true)
   })
-})
 
-/* describe('POST DEBTS', () => {}) */
+  test('Agrega un pago a una deuda', async () => {
+    const fecha = new Date()
+    const id = allDebts.body.data[1]._id
+    const data = {
+      cantidad: 1500,
+      fecha,
+      comentario: 'Hola esto es una prueba'
+    }
+    const res = await addPayToDebt(token, id, data)
+    expect(res.body.success).toBe(true)
+    expect(res.body.data.pagos.length).toBe(2)
+  })
+
+  test('Agrega un pago a una deuda que sobrepasa el limite', async () => {
+    const fecha = new Date()
+    const id = allDebts.body.data[1]._id
+    const data = {
+      cantidad: 5001,
+      fecha,
+      comentario: 'Hola esto es una prueba'
+    }
+    const res = await addPayToDebt(token, id, data)
+    expect(res.body.error).toBe(true)
+  })
+})
 
 afterAll(() => {
   server.close()
