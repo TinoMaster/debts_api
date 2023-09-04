@@ -1,9 +1,9 @@
 require('dotenv').config()
 
-const { DB, DB_TEST, NODE_ENV } = process.env
+const { DB, DB_TEST, NODE_ENV, HOSTLOCAL /* HOSTPRODUCTION */ } = process.env
 
 const config = {
-  mongoHost: process.env.HOST,
+  mongoHost: HOSTLOCAL,
   mongoDb: NODE_ENV === 'test' ? DB_TEST : DB
 }
 
