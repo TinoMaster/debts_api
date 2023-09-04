@@ -38,11 +38,16 @@ DebtsServices.deleteDebt = (req, res, next) => {
 DebtsServices.addPayToDebt = (req, res, next) => {
   const { id } = req.params
   const data = req.body
+  const correctData = {
+    cantidad: Number(data.cantidad),
+    fecha: new Date(),
+    comentario: data.comentario
+  }
 
-  DebtsController.addPayToDebt(id, data, (err, docs) => {
+  DebtsController.addPayToDebt(id, correctData, (err, docs) => {
     if (err) {
       res.json({ error: true, message: 'bad request' })
-    } else res.json({ success: true, data: docs })
+    } else res.json({ success: true, data: docs, newPaid: correctData })
   })
 }
 
