@@ -80,4 +80,16 @@ const deleteDebt = async (token, id) => await api.delete(`/api/v1/debts/${id}`).
 const addPayToDebt = async (token, id, data) =>
   await api.put(`/api/v1/debts/${id}`).send(data).set('Authorization', `Bearer ${token}`)
 
-module.exports = { initialDebts, server, getAllDebts, createOneDebt, getMyDebts, deleteDebt, addPayToDebt }
+const deletePayToDebt = async (token, idUser, idPaid) =>
+  await api.put(`/api/v1/debts/delete_paid/${idUser}`).send({ idPaid }).set('Authorization', `Bearer ${token}`)
+
+module.exports = {
+  initialDebts,
+  server,
+  getAllDebts,
+  createOneDebt,
+  getMyDebts,
+  deleteDebt,
+  addPayToDebt,
+  deletePayToDebt
+}

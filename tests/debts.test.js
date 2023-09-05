@@ -9,7 +9,8 @@ const {
   createOneDebt,
   getMyDebts,
   deleteDebt,
-  addPayToDebt
+  addPayToDebt,
+  deletePayToDebt
 } = require('./helpers/debts')
 const { initialUsers, createTrueToken } = require('./helpers/users')
 
@@ -93,6 +94,7 @@ describe('All DEBTS', () => {
       comentario: 'Hola esto es una prueba'
     }
     const res = await addPayToDebt(token, id, data)
+    /* console.log(res.body) */
     expect(res.body.success).toBe(true)
     expect(res.body.data.pagos.length).toBe(2)
   })
@@ -107,6 +109,15 @@ describe('All DEBTS', () => {
     }
     const res = await addPayToDebt(token, id, data)
     expect(res.body.error).toBe(true)
+  })
+
+  test('Elimina un pago de la lista de pagos', async () => {
+    const idUser = allDebts.body.data[1]._id
+    const idPaid = allDebts.body.data[1].pagos[0]._id
+
+    const res = await deletePayToDebt(token, idUser, idPaid)
+    expect(res.body.success).toBe(true)
+    expect(res.body.data.pagos.length).toBe(1)
   })
 })
 

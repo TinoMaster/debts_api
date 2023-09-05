@@ -47,7 +47,23 @@ DebtsServices.addPayToDebt = (req, res, next) => {
   DebtsController.addPayToDebt(id, correctData, (err, docs) => {
     if (err) {
       res.json({ error: true, message: 'bad request' })
-    } else res.json({ success: true, data: docs, newPaid: correctData })
+    } else {
+      const { userUpdate, newPaid } = docs
+      res.json({ success: true, data: userUpdate, newPaid })
+    }
+  })
+}
+
+DebtsServices.removePaidToDebt = (req, res, next) => {
+  const { id } = req.params
+  const { idPaid } = req.body
+
+  DebtsController.removePaidToDebt(id, idPaid, (err, docs) => {
+    if (err) {
+      res.json({ error: true, message: 'bad request' })
+    } else {
+      res.json({ success: true, data: docs })
+    }
   })
 }
 

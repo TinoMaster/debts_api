@@ -39,7 +39,24 @@ DebtsController.addPayToDebt = async (id, data, cb) => {
 
     if (restoTotal >= 0) {
       const userUpdate = await DebtsModel.findOneAndUpdate({ _id: id }, { $push: { pagos: data } }, { new: true })
-      cb(null, userUpdate)
+      const newPaid = userUpdate.pagos.filter((el) => el.fecha.toString() === data.fecha.toString())
+      const docs = { userUpdate, newPaid }
+      cb(null, docs)
+    } else throw new Error('Bad request')
+  } catch (error) {
+    cb(error, null)
+  }
+}
+
+DebtsController.removePaidToDebt = async (idUser, idPaid, cb) => {
+  try {
+    const user = await DebtsModel.findOneAndUpdate(
+      { _id: idUser },
+      { $pull: { pagos: { _id: idPaid } } },
+      { new: true }
+    )
+    if (user) {
+      cb(null, user)
     } else throw new Error('Bad request')
   } catch (error) {
     cb(error, null)
