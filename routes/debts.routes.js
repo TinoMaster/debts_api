@@ -8,6 +8,6 @@ router.get('/debts/:id', checkIsUser, DebtsServices.get_my_debts)
 router.post('/debts', checkIsUser, DebtsServices.create_debt)
 router.delete('/debts/:id', checkIsUser, DebtsServices.deleteDebt)
 router.put('/debts/:id', checkIsUser, DebtsServices.addPayToDebt)
-router.put('/debts/delete_paid/:id', checkIsUser, DebtsServices.removePaidToDebt)
+router.put('/debts/deletePaid/:id', checkIsUser, DebtsServices.removePaidToDebt)
 
 module.exports = router
