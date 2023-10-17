@@ -3,5 +3,6 @@
   "useTabs": false,
   "singleQuote": true,
   "semi": false,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "scripts": { "format": "prettier --write \"**/*.js\"" }
 }
