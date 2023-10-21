@@ -1,4 +1,5 @@
 const BlogsController = require('../controllers/blogs.controller')
+const { saveImageInCubbit } = require('../helpers/saveImageInCubbit')
 const BlogServices = () => {}
 
 BlogServices.getAllBlogs = async (req, res, next) => {
@@ -40,6 +41,19 @@ BlogServices.deleteBlog = async (req, res, next) => {
     if (err) next(err)
     else res.status(200).json({ success: true, data: docs })
   })
+}
+
+BlogServices.uploadImage = async (req, res) => {
+  if (req.file) {
+    const image = req.file
+    const imageName = req.file.originalname
+    const response = await saveImageInCubbit({ image, imageName })
+    if (response.success) {
+      res.status(201).json({ success: true, location: response.location })
+    } else res.status(500).json({ error: 'Error al subir la imagen cubbit' })
+  } else {
+    res.status(500).json({ error: 'Error al cargar la imagen' })
+  }
 }
 
 module.exports = BlogServices

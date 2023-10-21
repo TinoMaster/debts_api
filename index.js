@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 5000
 /* Este middleware se usa para poder recibir archivos json */
 app.use(express.json())
 app.use(cors())
+app.use(express.static('public'))
 
 routerApi(app)
 const httpServer = http.createServer(app)
