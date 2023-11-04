@@ -24,6 +24,16 @@ BlogsController.createBlog = async (blog, cb) => {
     const newBlog = await BlogModel.create(blog)
     cb(null, newBlog)
   } catch (error) {
+    console.log(error)
+    cb(error, null)
+  }
+}
+
+BlogsController.getBlogByCategory = async (category, cb) => {
+  try {
+    const blogs = await BlogModel.find({ category })
+    cb(null, blogs)
+  } catch (error) {
     cb(error, null)
   }
 }

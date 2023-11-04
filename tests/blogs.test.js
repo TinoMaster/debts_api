@@ -43,7 +43,7 @@ describe('Create Blogs', () => {
       'Vea qué publicaciones tienen más éxito con los análisis integrados de Blogger. Podrás saber de dónde viene tu audiencia y cuáles son sus intereses. Incluso puedes conectar tu blog directamente a Google Analytics para examinarlo más profundamente.',
     image:
       'https://img.freepik.com/vector-premium/plantillas-banner-morado-disenadas-web-varios-titulares-plantilla-fondo-patron-banner-diseno-grafico-abstracto-vector_181182-18343.jpg',
-    section: [
+    sections: [
       {
         id: 1,
         title: 'Probando',
@@ -69,6 +69,7 @@ describe('Create Blogs', () => {
   }
   test('Creating a new blog', async () => {
     const response = await createOneBlog(newBlog)
+    console.log(response.body.data)
     expect(response.body.data.title).toBe(newBlog.title)
   })
 })
@@ -86,7 +87,7 @@ describe('Update Blogs', () => {
       'Vea qué publicaciones tienen más éxito con los análisis integrados de Blogger. Podrás saber de dónde viene tu audiencia y cuáles son sus intereses. Incluso puedes conectar tu blog directamente a Google Analytics para examinarlo más profundamente.',
     image:
       'https://img.freepik.com/vector-premium/plantillas-banner-morado-disenadas-web-varios-titulares-plantilla-fondo-patron-banner-diseno-grafico-abstracto-vector_181182-18343.jpg',
-    section: [
+    sections: [
       {
         id: 1,
         title: 'Probando',

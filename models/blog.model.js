@@ -7,9 +7,9 @@ const BlogSchema = new Schema(
     title: { type: String, required: true },
     description: { type: String, required: true },
     category: { type: String, required: true },
-    content: { type: String, required: true },
+    content: String,
     image: String,
-    section: [
+    sections: [
       {
         id: Number,
         title: String,
@@ -17,7 +17,7 @@ const BlogSchema = new Schema(
           type: String,
           validate: {
             validator: function (value) {
-              return ['code', 'image', 'text']
+              return ['code', 'image', 'text', 'markdown']
             },
             message: 'Valor del type no valido'
           }

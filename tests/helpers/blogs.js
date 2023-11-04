@@ -11,7 +11,7 @@ const initialBlogs = [
       'Vea qué publicaciones tienen más éxito con los análisis integrados de Blogger. Podrás saber de dónde viene tu audiencia y cuáles son sus intereses. Incluso puedes conectar tu blog directamente a Google Analytics para examinarlo más profundamente.',
     image:
       'https://img.freepik.com/foto-gratis/concepto-fondo-estudio-fondo-purpura-sitio-estudio-pendiente-ligera-vacia-abstracta-producto-fondo-liso-estudio_1258-63884.jpg',
-    section: [
+    sections: [
       {
         id: 1,
         title: 'Probando',
@@ -43,7 +43,7 @@ const initialBlogs = [
       'Vea qué publicaciones tienen más éxito con los análisis integrados de Blogger. Podrás saber de dónde viene tu audiencia y cuáles son sus intereses. Incluso puedes conectar tu blog directamente a Google Analytics para examinarlo más profundamente.',
     image:
       'https://img.freepik.com/foto-gratis/concepto-fondo-estudio-fondo-purpura-sitio-estudio-pendiente-ligera-vacia-abstracta-producto-fondo-liso-estudio_1258-63884.jpg',
-    section: [
+    sections: [
       {
         id: 1,
         title: 'Probando',

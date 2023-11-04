@@ -17,6 +17,14 @@ BlogServices.getBlogById = async (req, res, next) => {
   })
 }
 
+BlogServices.getBlogByCategory = async (req, res, next) => {
+  const { category } = req.params
+  BlogsController.getBlogByCategory(category, (err, docs) => {
+    if (err) next(err)
+    else res.status(200).json({ success: true, data: docs })
+  })
+}
+
 BlogServices.createBlog = async (req, res) => {
   const data = req.body
   BlogsController.createBlog(data, (err, docs) => {
@@ -55,5 +63,7 @@ BlogServices.uploadImage = async (req, res) => {
     res.status(500).json({ error: 'Error al cargar la imagen' })
   }
 }
+
+BlogServices.deleteImage = async (req, res) => {}
 
 module.exports = BlogServices
