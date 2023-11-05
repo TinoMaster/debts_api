@@ -24,8 +24,8 @@ const saveImageInCubbit = async ({ image, imageName }) => {
   }
 
   try {
-    const res = await s3Client.send(new PutObjectCommand(params))
-    console.log(res)
+    await s3Client.send(new PutObjectCommand(params))
+
     fs.unlink(`public/blogs/${imageName}`, (err) =>
       err ? console.error('Error al eliminar el archivo:', err) : console.log('Archivo eliminado con éxito.')
     )

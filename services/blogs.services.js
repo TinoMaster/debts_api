@@ -52,15 +52,16 @@ BlogServices.deleteBlog = async (req, res, next) => {
 }
 
 BlogServices.uploadImage = async (req, res) => {
+  console.log(req)
   if (req.file) {
     const image = req.file
     const imageName = req.file.originalname
     const response = await saveImageInCubbit({ image, imageName })
     if (response.success) {
       res.status(201).json({ success: true, location: response.location })
-    } else res.status(500).json({ error: 'Error al subir la imagen cubbit' })
+    } else res.json({ error: 'Error al subir la imagen cubbit' })
   } else {
-    res.status(500).json({ error: 'Error al cargar la imagen' })
+    res.json({ error: 'Error al cargar la imagen' })
   }
 }
 
