@@ -5,8 +5,8 @@ BlogsController.getAllBlogs = async (cb) => {
   try {
     const blogs = await BlogModel.find()
     const filterBlogs = blogs.map((blog) => {
-      const { sections, ...resto } = blog
-      return resto
+      delete blog.sections
+      return blog
     })
     cb(null, filterBlogs)
   } catch (error) {
@@ -37,8 +37,8 @@ BlogsController.getBlogByCategory = async (category, cb) => {
   try {
     const blogs = await BlogModel.find({ category })
     const filterBlogs = blogs.map((blog) => {
-      const { sections, ...resto } = blog
-      return resto
+      delete blog.sections
+      return blog
     })
     cb(null, filterBlogs)
   } catch (error) {
