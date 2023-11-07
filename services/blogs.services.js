@@ -5,7 +5,13 @@ const BlogServices = () => {}
 BlogServices.getAllBlogs = async (req, res, next) => {
   BlogsController.getAllBlogs((err, docs) => {
     if (err) next(err)
-    else res.status(200).json({ success: true, data: docs })
+    else {
+      const filterDocs = docs.map((blog) => {
+        const { _id, title, category, description, image, date } = blog
+        return { _id, title, category, description, image, date }
+      })
+      res.status(200).json({ success: true, data: filterDocs })
+    }
   })
 }
 
@@ -21,7 +27,13 @@ BlogServices.getBlogByCategory = async (req, res, next) => {
   const { category } = req.params
   BlogsController.getBlogByCategory(category, (err, docs) => {
     if (err) next(err)
-    else res.status(200).json({ success: true, data: docs })
+    else {
+      const filterDocs = docs.map((blog) => {
+        const { _id, title, category, description, image, date } = blog
+        return { _id, title, category, description, image, date }
+      })
+      res.status(200).json({ success: true, data: filterDocs })
+    }
   })
 }
 
