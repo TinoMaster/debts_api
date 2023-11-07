@@ -4,6 +4,7 @@ const BlogsController = () => {}
 BlogsController.getAllBlogs = async (cb) => {
   try {
     const blogs = await BlogModel.find()
+    delete blogs.sections
     cb(null, blogs)
   } catch (error) {
     cb(error, null)
