@@ -8,8 +8,7 @@ BlogServices.getAllBlogs = async (req, res, next) => {
     else {
       const filterDocs = docs.map((blog) => {
         const { _id, title, category, description, image, createdAt } = blog
-        const date = new Date(createdAt)
-        return { _id, title, category, description, image, date }
+        return { _id, title, category, description, image, createdAt }
       })
       res.status(200).json({ success: true, data: filterDocs })
     }
@@ -31,8 +30,7 @@ BlogServices.getBlogByCategory = async (req, res, next) => {
     else {
       const filterDocs = docs.map((blog) => {
         const { _id, title, category, description, image, createdAt } = blog
-        const date = new Date(createdAt)
-        return { _id, title, category, description, image, date }
+        return { _id, title, category, description, image, createdAt }
       })
       res.status(200).json({ success: true, data: filterDocs })
     }
